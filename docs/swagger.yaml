@@ -1,0 +1,228 @@
+basePath: /
+definitions:
+  domain.Person:
+    properties:
+      age:
+        type: integer
+      gender:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      nationality:
+        type: string
+      patronymic:
+        type: string
+      surname:
+        type: string
+    required:
+    - name
+    - surname
+    type: object
+  domain.UpdatePersonInput:
+    properties:
+      age:
+        type: integer
+      gender:
+        type: string
+      name:
+        type: string
+      nationality:
+        type: string
+      patronymic:
+        type: string
+      surname:
+        type: string
+    type: object
+  v1.errorResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  v1.getPersonsResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/domain.Person'
+        type: array
+    type: object
+  v1.statusResponse:
+    properties:
+      status:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: тех. задание с отбора на стажировку Effective-Mobile
+  title: Effective-Mobile Trainee Assignment
+  version: "2.0"
+paths:
+  /api/person:
+    post:
+      consumes:
+      - application/json
+      operationId: add-person
+      parameters:
+      - description: Person content
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/domain.Person'
+      responses:
+        "200":
+          description: id
+          schema:
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+      summary: Add Person
+      tags:
+      - person
+  /api/person/{personID}:
+    delete:
+      operationId: delete-person
+      parameters:
+      - description: ID of person to delete
+        in: path
+        name: personID
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.statusResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+      summary: Delete Person
+      tags:
+      - person
+    put:
+      consumes:
+      - application/json
+      operationId: update-person
+      parameters:
+      - description: ID of person to update
+        in: path
+        name: personID
+        required: true
+        type: integer
+      - description: Update Person content
+        in: body
+        name: input
+        schema:
+          $ref: '#/definitions/domain.UpdatePersonInput'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.statusResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+      summary: Update Person
+      tags:
+      - person
+  /api/persons:
+    get:
+      operationId: get-persons
+      parameters:
+      - in: query
+        name: age
+        type: integer
+      - in: query
+        name: gender
+        type: string
+      - in: query
+        name: name
+        type: string
+      - in: query
+        name: nationality
+        type: string
+      - in: query
+        name: patronymic
+        type: string
+      - in: query
+        name: surname
+        type: string
+      - description: limit
+        enum:
+        - 10
+        - 25
+        - 50
+        in: query
+        name: limit
+        type: integer
+      - description: page
+        in: query
+        name: page
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.getPersonsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+        default:
+          description: ""
+          schema:
+            $ref: '#/definitions/v1.errorResponse'
+      summary: Get Persons
+      tags:
+      - person
+swagger: "2.0"

@@ -1,0 +1,349 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "тех. задание с отбора на стажировку Effective-Mobile",
+        "title": "Effective-Mobile Trainee Assignment",
+        "contact": {},
+        "version": "2.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/api/person": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "person"
+                ],
+                "summary": "Add Person",
+                "operationId": "add-person",
+                "parameters": [
+                    {
+                        "description": "Person content",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.Person"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/v1.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/v1.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.errorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/v1.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/person/{personID}": {
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "person"
+                ],
+                "summary": "Update Person",
+                "operationId": "update-person",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID of person to update",
+                        "name": "personID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update Person content",
+                        "name": "input",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/domain.UpdatePersonInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/v1.statusResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/v1.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/v1.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.errorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/v1.errorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "person"
+                ],
+                "summary": "Delete Person",
+                "operationId": "delete-person",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID of person to delete",
+                        "name": "personID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/v1.statusResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/v1.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/v1.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.errorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/v1.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/persons": {
+            "get": {
+                "tags": [
+                    "person"
+                ],
+                "summary": "Get Persons",
+                "operationId": "get-persons",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "age",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "gender",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "nationality",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "patronymic",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "surname",
+                        "in": "query"
+                    },
+                    {
+                        "enum": [
+                            10,
+                            25,
+                            50
+                        ],
+                        "type": "integer",
+                        "description": "limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "page",
+                        "name": "page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/v1.getPersonsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/v1.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/v1.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/v1.errorResponse"
+                        }
+                    },
+                    "default": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/v1.errorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "domain.Person": {
+            "type": "object",
+            "required": [
+                "name",
+                "surname"
+            ],
+            "properties": {
+                "age": {
+                    "type": "integer"
+                },
+                "gender": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "nationality": {
+                    "type": "string"
+                },
+                "patronymic": {
+                    "type": "string"
+                },
+                "surname": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.UpdatePersonInput": {
+            "type": "object",
+            "properties": {
+                "age": {
+                    "type": "integer"
+                },
+                "gender": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "nationality": {
+                    "type": "string"
+                },
+                "patronymic": {
+                    "type": "string"
+                },
+                "surname": {
+                    "type": "string"
+                }
+            }
+        },
+        "v1.errorResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "v1.getPersonsResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.Person"
+                    }
+                }
+            }
+        },
+        "v1.statusResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

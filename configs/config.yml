@@ -1,0 +1,28 @@
+postgres:
+  dbname: fioDb
+  sslmode: disable
+
+http:
+  port: 8080
+  readTimeout: 10s
+  writeTimeout: 10s
+  maxHeaderMegaBytes: 1
+
+cache:
+  ttl: 60s
+
+redis:
+  db: 0
+
+kafka:
+  group-id: "1"
+  tls-enable: False
+  returnSucceses: True
+  requiredAcks: -1
+  client-id: "fio-app"
+
+kafka-endpoints:
+  - kafka:9092
+
+kafka-topics:
+  - FIO

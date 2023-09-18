@@ -1,0 +1,43 @@
+type Person {
+  id: ID!
+  name: String!
+  surname: String!
+  patronymic: String
+  age: Int!
+  gender: String!
+  nationality: String!
+}
+
+input NewPerson{
+  name: String!
+  surname: String!
+  patronymic: String
+}
+
+input UpdatePerson{
+  name: String
+  surname: String
+  patronymic: String
+  age: Int
+  gender: String
+  nationality: String
+}
+
+input PersonFilter{
+  name: String
+  surname: String
+  patronymic: String
+  age: Int
+  gender: String
+  nationality: String
+}
+
+type Query {
+  getPersons(filter: PersonFilter, limit: Int = 25, offset: Int = 0): [Person!]!
+}
+
+type Mutation {
+  addPerson(input: NewPerson!): ID!
+  deletePerson(id: ID!): Boolean!
+  updatePerson(id: ID!, input: UpdatePerson!): Boolean!
+}
