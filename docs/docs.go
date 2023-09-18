@@ -380,7 +380,7 @@ var SwaggerInfo = &swag.Spec{
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Effective-Mobile Trainee Assignment",
-	Description:      "тех. задание с отбора на стажировку Effective-Mobile",
+	Description:      "тех. задание с отбора на go разарботчика Effective-Mobile",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

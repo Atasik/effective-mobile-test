@@ -67,7 +67,7 @@ definitions:
 host: localhost:8079
 info:
   contact: {}
-  description: тех. задание с отбора на стажировку Effective-Mobile
+  description: тех. задание с отбора на go разарботчика Effective-Mobile
   title: Effective-Mobile Trainee Assignment
   version: "2.0"
 paths:

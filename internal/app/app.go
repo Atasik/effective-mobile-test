@@ -34,7 +34,7 @@ const (
 
 // @title Effective-Mobile Trainee Assignment
 // @version 2.0
-// @description тех. задание с отбора на стажировку Effective-Mobile
+// @description тех. задание с отбора на go разарботчика Effective-Mobile
 
 // @host localhost:8079
 // @BasePath /
@@ -97,7 +97,9 @@ func Run(configDir string) {
 
 	messageHandler := kafka.NewMessageHander(services, validate, logger, syncProducer)
 
-	go messageHandler.ConsumeLoop(cfg.KafkaTopics, context.TODO(), consumerGroup)
+	consumeContext := context.Background()
+	go messageHandler.ConsumeLoop(cfg.KafkaTopics, consumeContext, consumerGroup)
+	defer consumeContext.Done()
 
 	srv := server.NewServer(cfg, mux)
 
