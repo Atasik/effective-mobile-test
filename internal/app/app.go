@@ -81,14 +81,11 @@ func Run(configDir string) {
 
 	mux := httpHandler.InitRoutes()
 
-	logger.Infof("LOL %v", cfg.KafkaEndpoints)
 	consumerGroup, err := queue.InitKafkaConsumerGroup(cfg.KafkaEndpoints, cfg.Kafka.GroupID, cfg.Kafka.ClientID,
 		cfg.Kafka.TLSEnable, cfg.Kafka.ReturnSucceses, sarama.RequiredAcks(cfg.Kafka.RequiredAcks))
-	for err != nil {
+	if err != nil {
 		logger.Errorf("Error occurred while init Kafka Consumer Group: %s\n", err.Error())
-		time.Sleep(timeout)
-		consumerGroup, err = queue.InitKafkaConsumerGroup(cfg.KafkaEndpoints, cfg.Kafka.GroupID, cfg.Kafka.ClientID,
-			cfg.Kafka.TLSEnable, cfg.Kafka.ReturnSucceses, sarama.RequiredAcks(cfg.Kafka.RequiredAcks))
+		return
 	}
 
 	syncProducer, err := queue.InitKafkaSyncProducer(cfg.KafkaEndpoints, cfg.Kafka.ClientID, cfg.Kafka.TLSEnable,

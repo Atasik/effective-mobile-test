@@ -13,5 +13,8 @@ test:
 migrate:
     migrate -path ./schema -database 'postgres://postgres:qwerty@0.0.0.0:5436/fioDb?sslmode=disable' up
 
+kafka-ui:
+    docke compose up kafka-ui
+
 swag:
     swag init -g internal/app/app.go

@@ -19,6 +19,7 @@ func (h *MessageHandler) SendPersonErrorReponseToKafka(person personErrorRespons
 	}
 
 	_, _, err = h.syncProducer.SendMessage(msg)
+	h.logger.Infof("Error message [%s] was sent to Kafka", person.errorResponse.Message)
 	return err
 }
 
