@@ -1,4 +1,4 @@
-# Тех. задание отбора на стажировку effective mobile
+# Тех. задание отбора junior Go разработчик effective mobile
 ## Для работы приложения нужно задать .env файл:
 ```
 POSTGRES_PASSWORD=qwerty
