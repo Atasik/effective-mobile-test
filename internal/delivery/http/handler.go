@@ -10,17 +10,12 @@ import (
 
 	"github.com/go-playground/validator"
 	"github.com/gorilla/mux"
-	"github.com/gorilla/schema"
 	httpSwagger "github.com/swaggo/http-swagger"
 	"go.uber.org/zap"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 )
-
-// На гит-хаб странице пакета gorilla/schema написано, что можно объвлять,
-// как глобальную переменную, потому что декодер кэширует мета-данные струтур :)
-var decoder = schema.NewDecoder() //nolint:gochecknoglobals
 
 const (
 	appJSON = "application/json"
@@ -41,7 +36,6 @@ func NewHandler(services *service.Service, validator *validator.Validate, logger
 }
 
 func (h *Handler) InitRoutes() http.Handler {
-	decoder.IgnoreUnknownKeys(true)
 	r := mux.NewRouter()
 
 	r.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)

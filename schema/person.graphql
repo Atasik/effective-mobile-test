@@ -32,8 +32,13 @@ input PersonFilter{
   nationality: String
 }
 
+input Pagination{
+  limit: Int = 25
+  offset: Int = 0
+}
+
 type Query {
-  getPersons(filter: PersonFilter, limit: Int = 25, offset: Int = 0): [Person!]!
+  getPersons(filter: PersonFilter, pagination: Pagination): [Person!]!
 }
 
 type Mutation {

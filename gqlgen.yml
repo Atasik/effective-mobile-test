@@ -89,3 +89,5 @@ models:
     model: ./internal/domain.UpdatePersonInput
   PersonFilter:
     model: ./internal/domain.PersonFiltersQuery
+  Pagination:
+    model: ./internal/domain.PaginationQuery

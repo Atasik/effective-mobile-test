@@ -6,7 +6,7 @@
         "contact": {},
         "version": "2.0"
     },
-    "host": "localhost:8080",
+    "host": "localhost:8079",
     "basePath": "/",
     "paths": {
         "/api/person": {
@@ -183,31 +183,37 @@
                 "parameters": [
                     {
                         "type": "integer",
+                        "example": 35,
                         "name": "age",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "example": "male",
                         "name": "gender",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "example": "Vladimir",
                         "name": "name",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "example": "RU",
                         "name": "nationality",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "example": "Viktorovych",
                         "name": "patronymic",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "example": "Davydov",
                         "name": "surname",
                         "in": "query"
                     },
@@ -273,25 +279,31 @@
             ],
             "properties": {
                 "age": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 22
                 },
                 "gender": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "male"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Dmitriy"
                 },
                 "nationality": {
                     "type": "string"
                 },
                 "patronymic": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Vasilevich"
                 },
                 "surname": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Ushakov"
                 }
             }
         },
@@ -299,22 +311,28 @@
             "type": "object",
             "properties": {
                 "age": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 22
                 },
                 "gender": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "male"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Alexey"
                 },
                 "nationality": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "RU"
                 },
                 "patronymic": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Vladimirovich"
                 },
                 "surname": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Yakovlev"
                 }
             }
         },

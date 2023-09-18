@@ -9,6 +9,7 @@ require (
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/lib/pq v1.10.9
 	github.com/spf13/viper v1.16.0
+	github.com/stretchr/testify v1.8.4
 	github.com/swaggo/http-swagger v1.3.4
 	github.com/swaggo/swag v1.16.2
 	github.com/vektah/gqlparser/v2 v2.5.9
@@ -30,11 +31,13 @@ require (
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/onsi/ginkgo v1.16.5 // indirect
 	github.com/onsi/gomega v1.27.10 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/swaggo/files v0.0.0-20220610200504-28940afbdbfe // indirect
 	golang.org/x/tools v0.13.0 // indirect
 )
 
 require (
+	github.com/DATA-DOG/go-sqlmock v1.5.0
 	github.com/IBM/sarama v1.41.2
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/eapache/go-resiliency v1.4.0 // indirect
@@ -57,7 +60,7 @@ require (
 	github.com/jcmturner/rpc/v2 v2.0.3 // indirect
 	github.com/klauspost/compress v1.16.7 // indirect
 	github.com/leodido/go-urn v1.2.4 // indirect
-	github.com/magiconair/properties v1.8.7 // indirect
+	github.com/magiconair/properties v1.8.7
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.8 // indirect
 	github.com/pierrec/lz4/v4 v4.1.18 // indirect

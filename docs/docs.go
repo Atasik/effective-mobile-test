@@ -190,31 +190,37 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
+                        "example": 35,
                         "name": "age",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "example": "male",
                         "name": "gender",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "example": "Vladimir",
                         "name": "name",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "example": "RU",
                         "name": "nationality",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "example": "Viktorovych",
                         "name": "patronymic",
                         "in": "query"
                     },
                     {
                         "type": "string",
+                        "example": "Davydov",
                         "name": "surname",
                         "in": "query"
                     },
@@ -280,25 +286,31 @@ const docTemplate = `{
             ],
             "properties": {
                 "age": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 22
                 },
                 "gender": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "male"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Dmitriy"
                 },
                 "nationality": {
                     "type": "string"
                 },
                 "patronymic": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Vasilevich"
                 },
                 "surname": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Ushakov"
                 }
             }
         },
@@ -306,22 +318,28 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "age": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 22
                 },
                 "gender": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "male"
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Alexey"
                 },
                 "nationality": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "RU"
                 },
                 "patronymic": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Vladimirovich"
                 },
                 "surname": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Yakovlev"
                 }
             }
         },
@@ -358,7 +376,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "2.0",
-	Host:             "localhost:8080",
+	Host:             "localhost:8079",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Effective-Mobile Trainee Assignment",

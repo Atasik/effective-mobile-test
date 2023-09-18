@@ -9,10 +9,10 @@ import (
 )
 
 type Person interface {
-	GetPersons(opts domain.PersonsQuery) ([]domain.Person, error)
-	AddPerson(person domain.Person) (int, error)
-	DeletePerson(personID int) (bool, error)
-	UpdatePerson(personID int, UpdateInput domain.UpdatePersonInput) (bool, error)
+	GetAll(opts domain.PersonsQuery) ([]domain.Person, error)
+	Add(person domain.Person) (int, error)
+	Delete(personID int) (bool, error)
+	Update(personID int, UpdateInput domain.UpdatePersonInput) (bool, error)
 }
 
 type Service struct {

@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
+	"github.com/gorilla/schema"
 )
 
 // @Summary Get Persons
@@ -26,9 +27,11 @@ func (h *Handler) getPersons(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", appJSON)
 
 	var filter domain.PersonFiltersQuery
+	decoder := schema.NewDecoder()
+	decoder.IgnoreUnknownKeys(true)
 	err := decoder.Decode(&filter, r.URL.Query())
 	if err != nil {
-		newErrorResponse(w, err.Error(), http.StatusBadRequest)
+		newErrorResponse(w, "bad query", http.StatusBadRequest)
 		return
 	}
 
@@ -39,7 +42,7 @@ func (h *Handler) getPersons(w http.ResponseWriter, r *http.Request) {
 	}
 
 	opts := domain.PersonsQuery{PaginationQuery: *pagination, PersonFiltersQuery: filter}
-	persons, err := h.services.GetPersons(opts)
+	persons, err := h.services.Person.GetAll(opts)
 	if err != nil {
 		newErrorResponse(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -82,11 +85,11 @@ func (h *Handler) addPerson(w http.ResponseWriter, r *http.Request) {
 
 	err = h.validator.Struct(person)
 	if err != nil {
-		newErrorResponse(w, err.Error(), http.StatusBadRequest)
+		newErrorResponse(w, "bad input", http.StatusBadRequest)
 		return
 	}
 
-	id, err := h.services.AddPerson(person)
+	id, err := h.services.Person.Add(person)
 	if err != nil {
 		newErrorResponse(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -122,13 +125,13 @@ func (h *Handler) deletePerson(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	personID, err := strconv.Atoi(vars["personID"])
 	if err != nil {
-		newErrorResponse(w, "Bad Id", http.StatusBadRequest)
+		newErrorResponse(w, "bad id", http.StatusBadRequest)
 		return
 	}
 
-	deleted, err := h.services.DeletePerson(personID)
+	deleted, err := h.services.Person.Delete(personID)
 	if err != nil {
-		newErrorResponse(w, "DB error", http.StatusInternalServerError)
+		newErrorResponse(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	if deleted {
@@ -167,30 +170,26 @@ func (h *Handler) updatePerson(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	personID, err := strconv.Atoi(vars["personID"])
 	if err != nil {
-		newErrorResponse(w, "Bad Id", http.StatusBadRequest)
+		newErrorResponse(w, "bad id", http.StatusBadRequest)
 		return
 	}
 
 	var inp domain.UpdatePersonInput
-	if err != nil {
-		newErrorResponse(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-
 	err = json.Unmarshal(body, &inp)
 	if err != nil {
 		newErrorResponse(w, "can't unpack payload", http.StatusBadRequest)
 		return
 	}
+
 	err = inp.Validate()
 	if err != nil {
 		newErrorResponse(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	updated, err := h.services.UpdatePerson(personID, inp)
+	updated, err := h.services.Person.Update(personID, inp)
 	if err != nil {
-		newErrorResponse(w, "DB error", http.StatusInternalServerError)
+		newErrorResponse(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	if updated {

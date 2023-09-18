@@ -50,10 +50,10 @@ func (mr *MockPersonRepoMockRecorder) Add(person interface{}) *gomock.Call {
 }
 
 // Delete mocks base method.
-func (m *MockPersonRepo) Delete(personID int) (int64, error) {
+func (m *MockPersonRepo) Delete(personID int) (bool, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Delete", personID)
-	ret0, _ := ret[0].(int64)
+	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -80,10 +80,10 @@ func (mr *MockPersonRepoMockRecorder) GetAll(opts interface{}) *gomock.Call {
 }
 
 // Update mocks base method.
-func (m *MockPersonRepo) Update(personID int, input domain.UpdatePersonInput) (int64, error) {
+func (m *MockPersonRepo) Update(personID int, input domain.UpdatePersonInput) (bool, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Update", personID, input)
-	ret0, _ := ret[0].(int64)
+	ret0, _ := ret[0].(bool)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

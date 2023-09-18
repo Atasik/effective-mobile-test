@@ -12,12 +12,12 @@ type PaginationQuery struct {
 }
 
 type PersonFiltersQuery struct {
-	Name        *string `schema:"name"`
-	Surname     *string `schema:"surname"`
-	Patronymic  *string `schema:"patronymic"`
-	Age         *int    `schema:"age"`
-	Gender      *string `schema:"gender"`
-	Nationality *string `schema:"nationality"`
+	Name        *string `schema:"name" example:"Vladimir"`
+	Surname     *string `schema:"surname" example:"Davydov"`
+	Patronymic  *string `schema:"patronymic" example:"Viktorovych"`
+	Age         *int    `schema:"age" example:"35"`
+	Gender      *string `schema:"gender" example:"male"`
+	Nationality *string `schema:"nationality" example:"RU"`
 }
 
 type PersonsQuery struct {

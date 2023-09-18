@@ -35,7 +35,7 @@ func (h *MessageHandler) handleAddPersonMessage(message []byte) (domain.Person, 
 		return domain.Person{}, err
 	}
 
-	id, err := h.services.AddPerson(person)
+	id, err := h.services.Person.Add(person)
 	if err != nil {
 		return domain.Person{}, err
 	}

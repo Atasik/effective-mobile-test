@@ -60,7 +60,7 @@ func (repo *PersonPostgresqlRepository) GetAll(opts domain.PersonsQuery) ([]doma
 	}
 	args = append(args, opts.PaginationQuery.Limit, opts.PaginationQuery.Offset)
 
-	conQuery := strings.Join(conValues, "AND ")
+	conQuery := strings.Join(conValues, " AND ")
 
 	query := fmt.Sprintf("SELECT * FROM %s LIMIT $%d OFFSET $%d", personsTable, argID, argID+1)
 	if len(conValues) > 0 {
@@ -87,18 +87,18 @@ func (repo *PersonPostgresqlRepository) Add(person domain.Person) (int, error) {
 	return personID, nil
 }
 
-func (repo *PersonPostgresqlRepository) Delete(personID int) (int64, error) {
+func (repo *PersonPostgresqlRepository) Delete(personID int) (bool, error) {
 	query := fmt.Sprintf("DELETE FROM %s WHERE id = $1", personsTable)
 
 	res, err := repo.db.Exec(query, personID)
 	if err != nil {
-		return 0, postgres.ParsePostgresError(err)
+		return false, postgres.ParsePostgresError(err)
 	}
-
-	return res.RowsAffected()
+	deleted, err := res.RowsAffected()
+	return deleted > 0, err
 }
 
-func (repo *PersonPostgresqlRepository) Update(personID int, input domain.UpdatePersonInput) (int64, error) {
+func (repo *PersonPostgresqlRepository) Update(personID int, input domain.UpdatePersonInput) (bool, error) {
 	setValues := make([]string, 0)
 	args := make([]interface{}, 0)
 	argID := 1
@@ -146,7 +146,8 @@ func (repo *PersonPostgresqlRepository) Update(personID int, input domain.Update
 
 	res, err := repo.db.Exec(query, args...)
 	if err != nil {
-		return 0, postgres.ParsePostgresError(err)
+		return false, postgres.ParsePostgresError(err)
 	}
-	return res.RowsAffected()
+	updated, err := res.RowsAffected()
+	return updated > 0, err
 }

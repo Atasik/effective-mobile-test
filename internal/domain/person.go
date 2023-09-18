@@ -10,22 +10,22 @@ var (
 )
 
 type Person struct {
-	ID          int     `db:"id"`
-	Name        string  `json:"name" db:"name" schema:"name" validate:"required"`
-	Surname     string  `json:"surname" db:"surname" schema:"surname" validate:"required"`
-	Patronymic  *string `json:"patronymic,omitempty" db:"patronymic" schema:"patronymic"`
-	Age         int     `json:"age" db:"age" schema:"age"`
-	Gender      string  `json:"gender" db:"gender" schema:"gender"`
+	ID          int     `db:"id" example:"1"`
+	Name        string  `json:"name" db:"name" schema:"name" validate:"required" example:"Dmitriy"`
+	Surname     string  `json:"surname" db:"surname" schema:"surname" validate:"required" example:"Ushakov"`
+	Patronymic  *string `json:"patronymic,omitempty" db:"patronymic" schema:"patronymic" example:"Vasilevich"`
+	Age         int     `json:"age" db:"age" schema:"age" example:"22"`
+	Gender      string  `json:"gender" db:"gender" schema:"gender" example:"male"`
 	Nationality string  `json:"nationality" db:"nationality" schema:"nationality"`
 }
 
 type UpdatePersonInput struct {
-	Name        *string `json:"name" db:"name"`
-	Surname     *string `json:"surname" db:"surname"`
-	Patronymic  *string `json:"patronymic" db:"patronymic"`
-	Age         *int    `json:"age" db:"age"`
-	Gender      *string `json:"gender" db:"gender"`
-	Nationality *string `json:"nationality" db:"nationality"`
+	Name        *string `json:"name" db:"name" example:"Alexey"`
+	Surname     *string `json:"surname" db:"surname" example:"Yakovlev"`
+	Patronymic  *string `json:"patronymic" db:"patronymic" example:"Vladimirovich"`
+	Age         *int    `json:"age" db:"age" example:"22"`
+	Gender      *string `json:"gender" db:"gender" example:"male"`
+	Nationality *string `json:"nationality" db:"nationality" example:"RU"`
 }
 
 func (i UpdatePersonInput) Validate() error {

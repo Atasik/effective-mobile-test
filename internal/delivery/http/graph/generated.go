@@ -62,7 +62,7 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		GetPersons func(childComplexity int, filter *domain.PersonFiltersQuery, limit *int, offset *int) int
+		GetPersons func(childComplexity int, filter *domain.PersonFiltersQuery, pagination *domain.PaginationQuery) int
 	}
 }
 
@@ -72,7 +72,7 @@ type MutationResolver interface {
 	UpdatePerson(ctx context.Context, id int, input domain.UpdatePersonInput) (bool, error)
 }
 type QueryResolver interface {
-	GetPersons(ctx context.Context, filter *domain.PersonFiltersQuery, limit *int, offset *int) ([]domain.Person, error)
+	GetPersons(ctx context.Context, filter *domain.PersonFiltersQuery, pagination *domain.PaginationQuery) ([]domain.Person, error)
 }
 
 type executableSchema struct {
@@ -185,7 +185,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.GetPersons(childComplexity, args["filter"].(*domain.PersonFiltersQuery), args["limit"].(*int), args["offset"].(*int)), true
+		return e.complexity.Query.GetPersons(childComplexity, args["filter"].(*domain.PersonFiltersQuery), args["pagination"].(*domain.PaginationQuery)), true
 
 	}
 	return 0, false
@@ -196,6 +196,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	ec := executionContext{rc, e, 0, 0, make(chan graphql.DeferredResult)}
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
 		ec.unmarshalInputNewPerson,
+		ec.unmarshalInputPagination,
 		ec.unmarshalInputPersonFilter,
 		ec.unmarshalInputUpdatePerson,
 	)
@@ -329,8 +330,13 @@ input PersonFilter{
   nationality: String
 }
 
+input Pagination{
+  limit: Int = 25
+  offset: Int = 0
+}
+
 type Query {
-  getPersons(filter: PersonFilter, limit: Int = 25, offset: Int = 0): [Person!]!
+  getPersons(filter: PersonFilter, pagination: Pagination): [Person!]!
 }
 
 type Mutation {
@@ -426,24 +432,15 @@ func (ec *executionContext) field_Query_getPersons_args(ctx context.Context, raw
 		}
 	}
 	args["filter"] = arg0
-	var arg1 *int
-	if tmp, ok := rawArgs["limit"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("limit"))
-		arg1, err = ec.unmarshalOInt2ᚖint(ctx, tmp)
+	var arg1 *domain.PaginationQuery
+	if tmp, ok := rawArgs["pagination"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("pagination"))
+		arg1, err = ec.unmarshalOPagination2ᚖfioᚋinternalᚋdomainᚐPaginationQuery(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["limit"] = arg1
-	var arg2 *int
-	if tmp, ok := rawArgs["offset"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("offset"))
-		arg2, err = ec.unmarshalOInt2ᚖint(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["offset"] = arg2
+	args["pagination"] = arg1
 	return args, nil
 }
 
@@ -969,7 +966,7 @@ func (ec *executionContext) _Query_getPersons(ctx context.Context, field graphql
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().GetPersons(rctx, fc.Args["filter"].(*domain.PersonFiltersQuery), fc.Args["limit"].(*int), fc.Args["offset"].(*int))
+		return ec.resolvers.Query().GetPersons(rctx, fc.Args["filter"].(*domain.PersonFiltersQuery), fc.Args["pagination"].(*domain.PaginationQuery))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2975,6 +2972,51 @@ func (ec *executionContext) unmarshalInputNewPerson(ctx context.Context, obj int
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputPagination(ctx context.Context, obj interface{}) (domain.PaginationQuery, error) {
+	var it domain.PaginationQuery
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	if _, present := asMap["limit"]; !present {
+		asMap["limit"] = 25
+	}
+	if _, present := asMap["offset"]; !present {
+		asMap["offset"] = 0
+	}
+
+	fieldsInOrder := [...]string{"limit", "offset"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "limit":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("limit"))
+			data, err := ec.unmarshalOInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Limit = data
+		case "offset":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("offset"))
+			data, err := ec.unmarshalOInt2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Offset = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputPersonFilter(ctx context.Context, obj interface{}) (domain.PersonFiltersQuery, error) {
 	var it domain.PersonFiltersQuery
 	asMap := map[string]interface{}{}
@@ -4055,6 +4097,16 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return res
 }
 
+func (ec *executionContext) unmarshalOInt2int(ctx context.Context, v interface{}) (int, error) {
+	res, err := graphql.UnmarshalInt(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOInt2int(ctx context.Context, sel ast.SelectionSet, v int) graphql.Marshaler {
+	res := graphql.MarshalInt(v)
+	return res
+}
+
 func (ec *executionContext) unmarshalOInt2ᚖint(ctx context.Context, v interface{}) (*int, error) {
 	if v == nil {
 		return nil, nil
@@ -4069,6 +4121,14 @@ func (ec *executionContext) marshalOInt2ᚖint(ctx context.Context, sel ast.Sele
 	}
 	res := graphql.MarshalInt(*v)
 	return res
+}
+
+func (ec *executionContext) unmarshalOPagination2ᚖfioᚋinternalᚋdomainᚐPaginationQuery(ctx context.Context, v interface{}) (*domain.PaginationQuery, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputPagination(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOPersonFilter2ᚖfioᚋinternalᚋdomainᚐPersonFiltersQuery(ctx context.Context, v interface{}) (*domain.PersonFiltersQuery, error) {

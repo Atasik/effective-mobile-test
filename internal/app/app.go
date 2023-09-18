@@ -36,7 +36,7 @@ const (
 // @version 2.0
 // @description тех. задание с отбора на стажировку Effective-Mobile
 
-// @host localhost:8080
+// @host localhost:8079
 // @BasePath /
 func Run(configDir string) {
 	zapLogger, err := zap.NewProduction()

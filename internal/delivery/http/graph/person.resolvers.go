@@ -18,12 +18,12 @@ func (r *mutationResolver) AddPerson(ctx context.Context, input model.NewPerson)
 		Patronymic: input.Patronymic,
 	}
 	r.validator.Struct(person)
-	return r.services.AddPerson(person)
+	return r.services.Person.Add(person)
 }
 
 // DeletePerson is the resolver for the deletePerson field.
 func (r *mutationResolver) DeletePerson(ctx context.Context, id int) (bool, error) {
-	return r.services.DeletePerson(id)
+	return r.services.Person.Delete(id)
 }
 
 // UpdatePerson is the resolver for the updatePerson field.
@@ -32,19 +32,25 @@ func (r *mutationResolver) UpdatePerson(ctx context.Context, id int, input domai
 	if err != nil {
 		return false, err
 	}
-	return r.services.UpdatePerson(id, input)
+	return r.services.Person.Update(id, input)
 }
 
 // GetPersons is the resolver for the getPersons field.
-func (r *queryResolver) GetPersons(ctx context.Context, filter *domain.PersonFiltersQuery, limit *int, offset *int) ([]domain.Person, error) {
+func (r *queryResolver) GetPersons(ctx context.Context, filter *domain.PersonFiltersQuery, pagination *domain.PaginationQuery) ([]domain.Person, error) {
 	if filter == nil {
 		filter = &domain.PersonFiltersQuery{}
 	}
+	if pagination == nil {
+		pagination = &domain.PaginationQuery{
+			Limit:  defaultLimit,
+			Offset: (defaultPage - 1) * defaultLimit,
+		}
+	}
 	opts := domain.PersonsQuery{
-		PaginationQuery:    domain.PaginationQuery{Limit: *limit, Offset: *offset},
+		PaginationQuery:    *pagination,
 		PersonFiltersQuery: *filter,
 	}
-	return r.services.GetPersons(opts)
+	return r.services.Person.GetAll(opts)
 }
 
 // Mutation returns MutationResolver implementation.

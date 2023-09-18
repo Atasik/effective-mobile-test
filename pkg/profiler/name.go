@@ -9,8 +9,10 @@ import (
 )
 
 type NameProfiler struct {
-	agifyResource, genderizeResource, nationalizeResource string
-	client                                                http.Client
+	agifyResource       string
+	genderizeResource   string
+	nationalizeResource string
+	client              http.Client
 }
 
 func NewNameProfiler(agifyResource, genderizeResource, nationalizeResource string, timeout time.Duration) *NameProfiler {

@@ -24,7 +24,7 @@ func NewPersonService(personRepo repository.PersonRepo, cache cache.Cache,
 		nameProfiler: nameProfiler, cacheTTL: cacheTTL}
 }
 
-func (s *PersonService) GetPersons(opts domain.PersonsQuery) ([]domain.Person, error) {
+func (s *PersonService) GetAll(opts domain.PersonsQuery) ([]domain.Person, error) {
 	var persons []domain.Person
 	redisKey := fmt.Sprintf("getPersons:%v", opts)
 	if value, err := s.cache.Get(redisKey); err == nil {
@@ -48,7 +48,7 @@ func (s *PersonService) GetPersons(opts domain.PersonsQuery) ([]domain.Person, e
 	return persons, err
 }
 
-func (s *PersonService) AddPerson(person domain.Person) (int, error) {
+func (s *PersonService) Add(person domain.Person) (int, error) {
 	age, err := s.nameProfiler.AgifyPerson(person.Name)
 	if err != nil {
 		return 0, err
@@ -70,20 +70,10 @@ func (s *PersonService) AddPerson(person domain.Person) (int, error) {
 	return s.personRepo.Add(person)
 }
 
-func (s *PersonService) DeletePerson(personID int) (bool, error) {
-	rowsUpdated, err := s.personRepo.Delete(personID)
-	if err != nil {
-		return false, err
-	}
-
-	return rowsUpdated > 0, nil
+func (s *PersonService) Delete(personID int) (bool, error) {
+	return s.personRepo.Delete(personID)
 }
 
-func (s *PersonService) UpdatePerson(personID int, input domain.UpdatePersonInput) (bool, error) {
-	rowsUpdated, err := s.personRepo.Update(personID, input)
-	if err != nil {
-		return false, err
-	}
-
-	return rowsUpdated > 0, nil
+func (s *PersonService) Update(personID int, input domain.UpdatePersonInput) (bool, error) {
+	return s.personRepo.Update(personID, input)
 }

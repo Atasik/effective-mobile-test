@@ -3,18 +3,24 @@ definitions:
   domain.Person:
     properties:
       age:
+        example: 22
         type: integer
       gender:
+        example: male
         type: string
       id:
+        example: 1
         type: integer
       name:
+        example: Dmitriy
         type: string
       nationality:
         type: string
       patronymic:
+        example: Vasilevich
         type: string
       surname:
+        example: Ushakov
         type: string
     required:
     - name
@@ -23,16 +29,22 @@ definitions:
   domain.UpdatePersonInput:
     properties:
       age:
+        example: 22
         type: integer
       gender:
+        example: male
         type: string
       name:
+        example: Alexey
         type: string
       nationality:
+        example: RU
         type: string
       patronymic:
+        example: Vladimirovich
         type: string
       surname:
+        example: Yakovlev
         type: string
     type: object
   v1.errorResponse:
@@ -52,7 +64,7 @@ definitions:
       status:
         type: string
     type: object
-host: localhost:8080
+host: localhost:8079
 info:
   contact: {}
   description: тех. задание с отбора на стажировку Effective-Mobile
@@ -171,22 +183,28 @@ paths:
     get:
       operationId: get-persons
       parameters:
-      - in: query
+      - example: 35
+        in: query
         name: age
         type: integer
-      - in: query
+      - example: male
+        in: query
         name: gender
         type: string
-      - in: query
+      - example: Vladimir
+        in: query
         name: name
         type: string
-      - in: query
+      - example: RU
+        in: query
         name: nationality
         type: string
-      - in: query
+      - example: Viktorovych
+        in: query
         name: patronymic
         type: string
-      - in: query
+      - example: Davydov
+        in: query
         name: surname
         type: string
       - description: limit

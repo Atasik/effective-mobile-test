@@ -11,6 +11,12 @@ import (
 //
 // It serves as dependency injection for your app, add any dependencies you require here.
 
+const (
+	defaultLimit = 25
+	maxLimit     = 50
+	defaultPage  = 1
+)
+
 type Resolver struct {
 	services  *service.Service
 	validator *validator.Validate
